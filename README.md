@@ -16,40 +16,41 @@ A Python-based pipeline that takes an input image, detects and encodes a face, p
 
 ## Pipeline
 
+```text
 Input Image
-|
-v
+    |
+    v
 Face Detection
-|
-v
+    |
+    v
 Face Alignment
-|
-v
+    |
+    v
 128-D Face Encoding
-|
-+----------------------+
-|                      |
-v                      v
-Google Lens       Face Features
-via SerpApi
-|
-v
-Social Media Match
-|
-v
-SHA-256 Fingerprint
-|
-v
-Local Simulated Blockchain
-|
-v
-Blockchain Integrity Check
-|
-v
-Fingerprint Re-verification
-|
-v
-VERIFIED
+    |
+    +----------------------+
+                           |
+                           v
+              Google Lens via SerpApi
+                           |
+                           v
+                  Social Media Match
+                           |
+                           v
+                  SHA-256 Fingerprint
+                           |
+                           v
+              Local Simulated Blockchain
+                           |
+                           v
+              Blockchain Integrity Check
+                           |
+                           v
+                Fingerprint Re-verification
+                           |
+                           v
+                       VERIFIED
+```
 
 ## How It Works
 
@@ -117,7 +118,9 @@ The social-media result is also fingerprinted again and compared with the finger
 
 If both checks succeed, the pipeline reports:
 
+```text
 VERIFIED [OK]
+```
 
 ## Technologies Used
 
@@ -155,44 +158,56 @@ HHGoa_Task-03/
 +-- README.md
 ```
 
-Note: .env and blockchain.json are local files and are excluded from Git using .gitignore.
+Note: `.env` and `blockchain.json` are local files. They are excluded from Git using `.gitignore`.
 
-Requirements
-Python 3.14 or compatible Python version
-Internet connection
-SerpApi API key
-Installation
+## Requirements
+
+- Python 3.14 or compatible Python version
+- Internet connection
+- SerpApi API key
+
+## Installation
 
 Open a terminal in the project directory and install the required packages:
 
+```bash
 python -m pip install -r requirements.txt
-API Key Setup
+```
 
-Create a .env file in the project root:
+## API Key Setup
 
+Create a `.env` file in the project root:
+
+```env
 SERPAPI_KEY=your_serpapi_api_key
+```
 
-The .env file is excluded from Git using .gitignore.
+The `.env` file is excluded from Git using `.gitignore`.
 
-Do not commit or share your API key.
+**Do not commit or share your API key.**
 
-Running the Project
+## Running the Project
 
 Run the complete pipeline from the project root:
 
+```bash
 python src\main.py input\test_image.jpg
+```
 
 The pipeline performs:
 
-Face Detection
-Face Encoding
-Google Lens Reverse Search
-Social-Media Match
-SHA-256 Fingerprint
-Blockchain Storage
-Blockchain Verification
-Fingerprint Re-verification
-Example Output
+1. Face Detection
+2. Face Encoding
+3. Google Lens Reverse Search
+4. Social-Media Match
+5. SHA-256 Fingerprint
+6. Blockchain Storage
+7. Blockchain Verification
+8. Fingerprint Re-verification
+
+## Example Output
+
+```text
 ========================================
        HH GOA TASK 3 PIPELINE
 ========================================
@@ -205,11 +220,13 @@ Encoding size  : 128 values
 
 [2] WEB / SOCIAL MEDIA SEARCH
 ----------------------------------------
+Searching Google Lens...
 Social-media match : FOUND [OK]
 Platform : Instagram
 
 [3] BLOCKCHAIN VERIFICATION
 ----------------------------------------
+Creating SHA-256 fingerprint...
 Fingerprint created [OK]
 Block index : 0
 Block hash  : <generated hash>
@@ -225,9 +242,11 @@ Fingerprint match : MATCH [OK]
 ========================================
              VERIFIED [OK]
 ========================================
+```
+
 The exact social-media result, block index, timestamp, and hash will vary between runs.
 
-Blockchain Implementation
+## Blockchain Implementation
 
 This project uses a local simulated blockchain.
 
@@ -236,6 +255,8 @@ It does not currently use Ethereum, Polygon, Solana, or another public blockchai
 The local blockchain is implemented using JSON storage, SHA-256 hashing, and hash-linked blocks.
 
 A simplified block structure is:
+
+```json
 {
   "index": 0,
   "timestamp": "generated at runtime",
@@ -251,29 +272,38 @@ A simplified block structure is:
   "previous_hash": "0",
   "hash": "SHA-256 block hash"
 }
-A subsequent block references the hash of the previous block through previous_hash.
+```
 
-Verification Model
+A subsequent block references the hash of the previous block through `previous_hash`.
+
+## Verification Model
 
 Two levels of verification are performed.
 
-Blockchain Integrity
+### Blockchain Integrity
 
 The entire local blockchain is traversed from the first block to the latest block.
 
 For each block, the system verifies that:
 
-The block index is correct.
-The stored block hash matches a newly calculated hash.
-The previous hash matches the hash of the preceding block.
-The first block has a previous hash value of 0.
+- The block index is correct.
+- The stored block hash matches a newly calculated hash.
+- The previous hash matches the hash of the preceding block.
+- The first block has a previous hash value of `0`.
 
 If the chain is valid:
+
+```text
 Blockchain chain integrity: VALID [OK]
+```
+
 If the chain has been modified:
 
+```text
 Blockchain chain integrity: INVALID [FAIL]
-Fingerprint Verification
+```
+
+### Fingerprint Verification
 
 The social-media result is fingerprinted again using the same canonical representation.
 
@@ -281,45 +311,52 @@ The new fingerprint is compared with the fingerprint stored in the blockchain re
 
 A match produces:
 
+```text
 Fingerprint match : MATCH
-Limitations
-The blockchain is a local simulated blockchain, not a public blockchain network.
-Google Lens results depend on external search availability and may change over time.
-SerpApi requires an API key and is subject to its API limits.
-A social-media result may not always be available for every input image.
-The current implementation selects the first supported social-media result returned by the search results.
-Face encoding represents facial features but does not by itself identify a person's name.
-The reverse image search and face encoding are separate processing stages.
-The blockchain stores a fingerprint and selected metadata rather than the original social-media post itself.
-The system is intended as a demonstration of the requested pipeline and is not a production identity-verification system.
-Privacy and Responsible Use
+```
+
+## Limitations
+
+- The blockchain is a local simulated blockchain, not a public blockchain network.
+- Google Lens results depend on external search availability and may change over time.
+- SerpApi requires an API key and is subject to its API limits.
+- A social-media result may not always be available for every input image.
+- The current implementation selects the first supported social-media result returned by the search results.
+- Face encoding represents facial features but does not by itself identify a person's name.
+- The reverse image search and face encoding are separate processing stages.
+- The blockchain stores a fingerprint and selected metadata rather than the original social-media post itself.
+- The system is intended as a demonstration of the requested pipeline and is not a production identity-verification system.
+
+## Privacy and Responsible Use
 
 Use images that you have permission to process or that are appropriate for public reverse-image-search testing.
 
 Do not use sensitive identity documents or private images without appropriate authorization.
 
-This project should not be treated as proof of a person's real-world identity. A reverse-image-search match indicates that a visually related result was found on the web; it does not independently establish identity.
+This project should not be treated as proof of a person's real-world identity. A reverse image search match indicates that a visually related result was found on the web; it does not independently establish identity.
 
-Model Sources
+## Model Sources
 
 The face detection and face recognition models are from the OpenCV Zoo model collection.
 
-YuNet face detection
-SFace face recognition
+- YuNet face detection
+- SFace face recognition
 
-The project uses the downloaded ONNX model files included in the models/ directory.
+The project uses the downloaded ONNX model files included in the `models/` directory.
 
-Task 3 Compliance
+## Task 3 Compliance
 
 This implementation addresses the requested Task 3 pipeline:
-| Requirement               | Implementation                                           |
-| ------------------------- | -------------------------------------------------------- |
-| Face identification       | YuNet detection + SFace 128-D encoding                   |
-| Genuine web/social search | Google Lens through SerpApi                              |
-| Dynamic result discovery  | Social-media result extracted from live search results   |
-| Blockchain verification   | SHA-256 fingerprint stored in local simulated blockchain |
-| Re-verification           | Block hash, chain, and fingerprint verification          |
-| GitHub submission         | Source code + README                                     |
-License
+
+| Requirement | Implementation |
+|---|---|
+| Face identification | YuNet detection + SFace 128-D encoding |
+| Genuine web/social search | Google Lens through SerpApi |
+| Dynamic result discovery | Social-media result extracted from live search results |
+| Blockchain verification | SHA-256 fingerprint stored in local simulated blockchain |
+| Re-verification | Block hash, chain, and fingerprint verification |
+| GitHub submission | Source code + README |
+
+## License
 
 This project was created as a hackathon submission and demonstration project.
