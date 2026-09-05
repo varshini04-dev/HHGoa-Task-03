@@ -153,6 +153,8 @@ HHGoa_Task-03/
 +-- .gitignore
 +-- requirements.txt
 +-- README.md
+```
+
 Note: .env and blockchain.json are local files and are excluded from Git using .gitignore.
 
 Requirements
